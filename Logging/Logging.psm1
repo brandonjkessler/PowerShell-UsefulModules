@@ -69,33 +69,32 @@ function Write-Log {
 	Write-Verbose -Message "Checking if running in a script."
 	$ScriptName =  $MyInvocation.ScriptName
 
-	if($ScriptName -eq ""){
-		$LogFile = "$($MyInvocation.MyCommand.Name).log"
-	} else {
-		$ScriptName = Split-Path -Path $ScriptName -Leaf
-		$ScriptName = $ScriptName.Replace('.psm1','').Replace('.ps1','')
-		$LogFile = "$($ScriptName).log"
-	}
-
-
-	Write-Verbose -Message "Creating $LogFile file at $Path."
-	$Log = "$($Path)\$($LogFile)"
-	
-
 	Write-Verbose -Message "Checking for Component value and setting to a default value if empty."
 	switch($Component){
+		{$PSItem -ne ""}{
+			Write-Verbose -Message "Component set to $Component"
+			$LogFile = "$($Component)"
+		}
 		{$PSItem -eq "" -and $ScriptName -ne ""}{
 			Write-Verbose -Message "Component not set, using Script Name $ScriptName"
+			$ScriptName = Split-Path -Path $ScriptName -Leaf
+			$ScriptName = $ScriptName.Replace('.psm1','').Replace('.ps1','')
 			$Component = "Script - $($ScriptName)"
+			$LogFile = "$($ScriptName).log"
+			Break
 		}
 		{$PSItem -eq "" -and $ScriptName -eq ""}{
 			Write-Verbose -Message "Component not set, Not running from a Script, using Command"
 			$Component = "Command - $($MyInvocation.MyCommand.Name)"
+			$LogFile = "$($MyInvocation.MyCommand.Name).log"
+			Break
 		}
-		{$PSItem -ne ""}{
-			Write-Verbose -Message "Component set to $Component"
-		}
+		
 	}
+
+	
+	Write-Verbose -Message "Creating $LogFile file at $Path."
+	$Log = "$($Path)\$($LogFile)"
 
 	# Setup log content Variables
 	# This will be used to output in a CMTrace compatible format
@@ -103,9 +102,7 @@ function Write-Log {
 	$TimeStamp = "$(Get-Date -Format "HH:mm:ss.ffffff")"
 	$Thread = "$([Threading.Thread]::CurrentThread.ManagedThreadId)"
 
-	$Content = @"
-<![LOG[$Message]LOG]!><time="$TimeStamp" date="$DateStamp" component="$Component" context="" type="$Type" thread="$Thread" file="">
-"@
+	$Content = "<![LOG[$Message]LOG]!><time=`"$TimeStamp`" date=`"$DateStamp`" component=`"$Component`" context=`"`" type=`"$Type`" thread=`"$Thread`" file=`"`">"
 
 	if((Test-Path -Path $Log) -ne $true){
 		Write-Verbose -Message "No $Log file found, now creating."
