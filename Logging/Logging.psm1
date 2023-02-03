@@ -109,5 +109,5 @@ function Write-Log {
 		Write-Verbose -Message "No $Log file found, now creating."
 		New-Item -Path $Log -ItemType File -Force
 	}
-	Add-Content -Path $Log -Value $Content -Encoding Ascii
+	Add-Content -Path $Log -Value $Content -Encoding Ascii -Force
 }
