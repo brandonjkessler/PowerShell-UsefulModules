@@ -73,7 +73,8 @@ function Write-Log {
 	switch($Component){
 		{$PSItem -ne ""}{
 			Write-Verbose -Message "Component set to $Component"
-			$LogFile = "$($Component)"
+			$LogFile = "$($Component).log"
+			Break
 		}
 		{$PSItem -eq "" -and $ScriptName -ne ""}{
 			Write-Verbose -Message "Component not set, using Script Name $ScriptName"
