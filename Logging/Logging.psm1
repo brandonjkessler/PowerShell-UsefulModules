@@ -110,4 +110,5 @@ function Write-Log {
 		New-Item -Path $Log -ItemType File -Force
 	}
 	Add-Content -Path $Log -Value $Content -Encoding Ascii -Force
+	Write-Output "$Message -- Time: $TimeStamp -- Date: $DateStamp -- Component: $Component -- Type: $Type -- Thread: $Thread"
 }
