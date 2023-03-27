@@ -57,7 +57,9 @@ function Write-Log {
 		[ValidateSet(1,2,3)]
 		[int]$Type = 1,
 		[Parameter(Mandatory=$false,HelpMessage="The specific component to list for writing the log.",Position=3)]
-		[string]$Component = ""
+		[string]$Component = "",
+		[parameter(Mandatory=$false,HelpMessage='Determines if output should be written to the host session.')]
+		[switch]$WriteHost
 	)
 
 
@@ -110,5 +112,19 @@ function Write-Log {
 		New-Item -Path $Log -ItemType File -Force
 	}
 	Add-Content -Path $Log -Value $Content -Encoding Ascii -Force
-	Write-Output "$Message -- Time: $TimeStamp -- Date: $DateStamp -- Component: $Component -- Type: $Type -- Thread: $Thread"
+	if(($PSBoundParameters.ContainsKey('WriteHost'))){
+		$outputMsg = "[$Component] $DateStamp $TimeStamp -- $Message"
+		switch($Type){
+			'1'{
+				Write-Host "$outputMsg"
+			}
+			'2' {
+				Write-Host "$outputMsg" -ForegroundColor Yellow
+			}
+			'3' {
+				Write-Host "$outputMsg" -ForegroundColor Red
+			}
+		}
+	}
+	
 }
