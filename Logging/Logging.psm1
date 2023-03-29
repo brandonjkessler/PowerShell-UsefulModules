@@ -53,6 +53,7 @@ function Write-Log {
 			}
 		)]
     	[string]$Path = "$env:Windir\Logs",
+		[Alias('Severity')]
 		[Parameter(Mandatory=$false,HelpMessage="Severity or Type of message. 1 = Info, 2 = Warning, 3 = Error",Position=2)]
 		[ValidateSet(1,2,3)]
 		[int]$Type = 1,
