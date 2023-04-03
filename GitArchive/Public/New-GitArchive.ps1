@@ -133,7 +133,7 @@ function New-GitArchive {
 
             }
 			Write-Verbose -Message "Creating zip file for $folder."
-                Compress-Archive -Path "$folder" -DestinationPath "$archive.zip" -CompressionLevel Optimal -Force
+                Compress-Archive -Path "$folder\*" -DestinationPath "$archive.zip" -CompressionLevel Optimal -Force
                 ## Remove the folder after a zip is detected
                 if(Test-Path -Path "$($archive).zip"){
                     if(Test-Path -Path $folder){
