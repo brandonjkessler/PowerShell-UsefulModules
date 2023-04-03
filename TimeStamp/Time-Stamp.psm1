@@ -1,19 +1,15 @@
-function Get-Time{
-    [cmdletbinding()]
-    param(
-        [Parameter(Mandatory=$false,HelpMessage='Delimiter to use between numbers.')]
-        [String]$Delimiter = '-'
-    )
-    $time = Get-Date -Format HH$($Delimiter)mm
-    Return $time
-}
+# Taken from https://www.manning.com/books/practical-automation-with-powershell
+# Chapter 2
 
-function New-TimeStamp {
-    [cmdletbinding()]
-    param(
-        [Parameter(Mandatory=$false,HelpMessage='Delimiter to use between numbers.')]
-        [String]$Delimiter = '-'
-    )
-    $timeStamp = Get-Date -Format "yyyy$($Delimiter)MM$($Delimiter)dd_HH$($Delimiter)mm"
-	Return $timeStamp
+$Path = Join-Path $PSScriptRoot 'Public'
+$Functions = Get-ChildItem -Path $Path -Filter '*.ps1'
+ 
+Foreach ($import in $Functions) {
+    Try {
+        Write-Verbose "dot-sourcing file '$($import.fullname)'"
+        . $import.fullname
+    }
+    Catch {
+        Write-Error -Message "Failed to import function $($import.name)"
+    }
 }
