@@ -21,6 +21,9 @@ function Write-Log {
 	
 	.PARAMETER Component
 	A Specific component that made the log. Can be left blank, but will be auto-populated if left blank.
+
+	.PARAMETER WriteHost
+    Switch that determines if output should also be written to the session
 	
 	.EXAMPLE
 	Write-Log -Message "Testing out as a module" -Type 3 -Component "Testing Component"
