@@ -101,7 +101,7 @@ function Write-Log {
 
 	
 	Write-Verbose -Message "Creating $LogFile file at $Path."
-	$Log = "$($Path)\$($LogFile)"
+	$Log = Join-Path -Path "$($Path)" -ChildPath "$($LogFile)"
 
 	# Setup log content Variables
 	# This will be used to output in a CMTrace compatible format
