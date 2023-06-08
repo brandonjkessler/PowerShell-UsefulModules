@@ -135,7 +135,7 @@ function New-GitArchive {
 
             #-- Create a changelog file
             Write-Verbose -Message "Now creating a changelog at $($folder)\CHANGELOG.txt"
-            powershell.exe -ExecutionPolicy Bypass -Command "git log --pretty=`"- %s%d`" | Out-File -FilePath `"$($folder)\CHANGELOG.txt`" -Encoding UTF8 -Force"
+            powershell.exe -ExecutionPolicy Bypass -Command "git log --pretty='- (%cI) %s%d' | Out-File -FilePath `"$($folder)\CHANGELOG.txt`" -Encoding UTF8 -Force"
 
             #-- Create a zip file from folder
 			Write-Verbose -Message "Creating zip file for $folder."
