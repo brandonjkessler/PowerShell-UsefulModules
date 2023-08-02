@@ -31,7 +31,8 @@ function Get-IntuneWin32PrepTool {
         [ValidateScript(
             {
                 if((Test-Path -Path $PSItem -PathType Container) -ne $true){
-                    Throw "Could not locate $PSItem or path is a file and not a directory."
+                    Write-Error "Could not locate $PSItem or path is a file and not a directory."
+                    Exit 1
                 } else {
                     $true
                 }
@@ -44,7 +45,8 @@ function Get-IntuneWin32PrepTool {
                 $webTest = Invoke-WebRequest -Uri $PSItem -UseBasicParsing -DisableKeepAlive -Method Head
                 $successCodes = @('200','201','202','203','204')
                 if($successCodes -notcontains $webTest.StatusCode ){
-                    Throw "Unable to reach $PSItem. StatusCode: $($webTest.StatusCode)."
+                    Write-Error "Unable to reach $PSItem. StatusCode: $($webTest.StatusCode)."
+                    Exit 2
                 } else {
                     $true
                 }

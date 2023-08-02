@@ -42,7 +42,8 @@ function New-IntuneWin32App {
         [ValidateScript(
             {
                 if((Test-Path -Path $PSItem -PathType Container) -ne $true){
-                    Throw "Could not locate $PSItem or path is a file and not a directory."
+                    Write-Error "Could not locate $PSItem or path is a file and not a directory."
+                    Exit 1
                 } else {
                     $true
                 }
@@ -53,7 +54,8 @@ function New-IntuneWin32App {
         [ValidateScript(
             {
                 if((Test-Path -Path $PSItem -PathType Container) -ne $true){
-                    Throw "Could not locate $PSItem or path is a file and not a directory."
+                    Write-Error "Could not locate $PSItem or path is a file and not a directory."
+                    Exit 1
                 } else {
                     $true
                 }
@@ -68,7 +70,8 @@ function New-IntuneWin32App {
         [ValidateScript(
             {
                 if((Test-Path -Path $PSItem -PathType Container) -ne $true){
-                    Throw "Could not locate $PSItem or path is a file and not a directory."
+                    Write-Error "Could not locate $PSItem or path is a file and not a directory."
+                    Exit 1
                 } else {
                     $true
                 }
