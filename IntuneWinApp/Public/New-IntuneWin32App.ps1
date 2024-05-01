@@ -88,7 +88,7 @@ function New-IntuneWin32App {
         Write-Warning "Could not locate $IntuneExe in $IntuneExePath."
         Try{
             Write-Host -Message "Attempting Download of executable."
-            Get-IntuneWin32PrepTool -Path IntuneExePath -IntuneExe $IntuneExe
+            Get-IntuneWin32PrepTool -Path $IntuneExePath -IntuneExe $IntuneExe
         } Catch {
             Write-Error $_.Exception.Message
         }           
