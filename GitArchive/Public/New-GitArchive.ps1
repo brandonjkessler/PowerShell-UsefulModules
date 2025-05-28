@@ -81,6 +81,8 @@ function New-GitArchive {
             $output = "$((Get-Item -Path $Path).Parent.FullName)"
 			Write-Verbose "Output is set to $output"
             $file = split-path "$Path" -leaf ## Name the file the same as the folder
+            #-- Add the Branch to the File name
+            $file = "$($file)" + "_" + "$Branch"
             ## Remove spaces
             $file = $file.Replace(' ','')
             ## Convert dashes to Underscores
