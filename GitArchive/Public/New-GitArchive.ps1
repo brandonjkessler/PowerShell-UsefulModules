@@ -104,6 +104,17 @@ function New-GitArchive {
                 $file = "$($file)" + "_" + "$($Tag)"
             }
 
+            try{
+                write-Verbose -Message "Attempting to update and initialize submodules"
+                powershell.exe -ExecutionPolicy Bypass -Command "git submodule update --init"
+                Write-Verbose -Message "Attempting to pull the submodules"
+                powershell.exe -ExecutionPolicy Bypass -Command "git pull"
+                Write-Verbose -Message "Attempting to update all submodules recursively"
+                powershell.exe -ExecutionPolicy Bypass -Command "git submodule update --recursive"
+            } catch {
+                Write-Error -Message "ERROR: Attempted to download submodules and failed. $PSItem.Exception.Message"
+            }
+
 			Write-Verbose -Message "File will be called $file"
         
             powershell.exe -ExecutionPolicy Bypass -Command "git archive --format=zip $Branch --output=$output\$file.zip -0 ."
