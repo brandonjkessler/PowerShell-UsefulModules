@@ -23,6 +23,10 @@ function New-GitArchive {
     Git-Archive -Path C:\Github\Some-Project -Branch Main
 
     .LINK
+
+    .NOTES
+    - Author: Brandon Kessler
+    - Version: 1.0.0.3
     
     #>
     [cmdletbinding()]
@@ -87,7 +91,7 @@ function New-GitArchive {
             $file = $file.Replace(' ','')
             ## Convert dashes to Underscores
             $file = $file.Replace('-','_')
-            if($null -eq $Tag -or $Tag -eq ''){
+            if(($null -eq $Tag) -or ($Tag -eq '')){
                 $gitTag = (git tag -l) | sort-object -Descending ## Test for versions
                 if($null -eq $gitTag){ ## If no tags
                     Write-Warning "No Tags."
